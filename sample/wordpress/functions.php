@@ -31,7 +31,7 @@ function rabify_cdn_srcset( $the_content, $sizes = [] )
 {
     $preg_cdn_url = preg_replace('/(https?):\/\//', '$1:\/\/', CDN_URL);
     $preg_cdn_url = preg_replace('/\./', '\.', $preg_cdn_url);
-    $pattern = "/(<img.*?src=)[\'|\"](${preg_cdn_url}.*?[\.jpe?g|\.png|\.bmp])\??(v\=\w+)?&?(d\=\w+)?[\'|\"](?!.*srcset.*)/i";
+    $pattern = "/(<img.*?src\=)[\'|\"](${preg_cdn_url}.*?[\.jpe?g|\.png|\.bmp])\??(v\=\w+)?&?(d\=\w+)?[\'|\"](?!.*srcset.*)/i";
 
     $srcset = "srcset=\"";
 
@@ -44,11 +44,13 @@ function rabify_cdn_srcset( $the_content, $sizes = [] )
     }
     $srcset = rtrim($srcset, ', ') . "\" " . SRC_SIZE;
     global $content_width;
-    $replace_content = preg_replace($pattern, "$1\"$2?d=$content_width&$3&$4\" ${srcset} $5", $the_content);
+    $replace_content = preg_replace($pattern, "$1\"$2?$3&$4&d=$content_width\" ${srcset} $5", $the_content);
 
     // ソースコードの整理。IMGのタグから外れる可能性あり。
-    $preg_arrangement = ['/(<img.*?)&&?(\'|\")/', '/(<img.*?)&&/', '/(<img.*?)d\=\w+(.*?)(d\=\w+)/', '/(<img.*?)\?&/'];
-    $replace_content = preg_replace($preg_arrangement, ['$1$2', '$1&', '$1$2$3', '$1?'], $replace_content );
+    $replace_content = preg_replace('/(<img.*?src\=.*?)(d\=\w+)(.*?)d\=\w+/', "$1$2$3", $replace_content );
+
+    $preg_arrangement = ['/(<img.*?src\=.*?)[&&?](\'|\")/', '/(<img.*?src\=.*?)&&/', '/(<img.*?src\=.*?)\?&/'];
+    $replace_content = preg_replace($preg_arrangement, ['$1$2', '$1&', '$1?'], $replace_content );
 
 
     return $replace_content;
