@@ -20,8 +20,7 @@ define('SRC_SIZE', 'sizes="(max-width: 767px) 89vw, (max-width: 1000px) 54vw, (m
 define('REPLACE_METHOD', ['get_the_excerpt', 'the_excerpt', 'the_content']);
 
 function rabify_cdn_filter( $the_content ) {
-    $preg_site_url = preg_replace('/(https?):\/\//', '$1:\/\/', site_url());
-    $preg_site_url = preg_replace('/\./', '\.', $preg_site_url);
+    $preg_site_url = preg_replace(['/(https?):\/\//', '/\./'], ['$1:\/\/', '\.'], site_url());
     $pattern = "/${preg_site_url}(.*?[\.jpe?g|\.png|\.bmp])/i";
     $replace_content = preg_replace($pattern, CDN_URL."$1", $the_content);
 
@@ -32,9 +31,9 @@ function rabify_cdn_srcset( $the_content, $sizes = [] )
 {
     $preg_cdn_url = preg_replace('/(https?):\/\//', '$1:\/\/', CDN_URL);
     $preg_cdn_url = preg_replace('/\./', '\.', $preg_cdn_url);
-    $pattern = "/(<img.*?src=)[\'|\"](${preg_cdn_url}.*?[\.jpe?g|\.png|\.bmp])[\?|.?](v\=\w+|.?).?(d\=\w+|.?)[\'|\"]((?!.*srcset).*>)/i";
+    $pattern = "/(<img.*?src=)[\'|\"](${preg_cdn_url}.*?[\.jpe?g|\.png|\.bmp])\??(v\=\w+)?&?(d\=\w+)?[\'|\"](?!.*srcset.*>)/i";
 
-    $srcset = "srcset=\"";
+    $srcset = "\nsrcset=\"";
 
     if(count($sizes) === 0) {
         $sizes = CDN_SIZE;
@@ -45,7 +44,8 @@ function rabify_cdn_srcset( $the_content, $sizes = [] )
     }
     $srcset = rtrim($srcset, ', ') . "\" " . SRC_SIZE;
 
-    $replace_content = preg_replace($pattern, "$1\"$2?$3&$4\" ${srcset} $5", $the_content);
+    $replace_content = preg_replace($pattern, "$1\"$2?$3&$4\" ${srcset} $5\n", $the_content);
+
     return $replace_content;
 }
 

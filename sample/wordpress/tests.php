@@ -20,7 +20,7 @@ $img_tags = [
     "<img src=\"https://msak-note.com/wp-content/uploads/2018/06/twitter_top0618.jpg?v=1\" />",
     "<img src=\"https://msak-note.com/wp-content/uploads/2018/06/twitter_top0618.jpg?d=200\" />",
     "<img src=\"https://msak-note.com/wp-content/uploads/2018/06/twitter_top0618.jpg?v=1&d=200\" />",
-    "<img src=\"https://msak-note.com/wp-content/uploads/2018/06/twitter_top0618-640x360.jpg\" alt=\"\" width=\"640\" height=\"360\" />"
+    "<img src=\"https://msak-note.com/wp-content/uploads/2018/06/twitter_top0618-640x360.jpg?v=1\" srcset=\"https://rabify.example.com/wp-content/uploads/2018/06/twitter_top0618.jpg?d=100 100w\" />"
 ];
 
 $comp = [];
