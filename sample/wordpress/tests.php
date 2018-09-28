@@ -28,7 +28,7 @@ $expect = [
     "https://rabify.example.com/wp-content/uploads/2018/06/twitter_top0618.jpg?v=1&d=200 200w",
     "https://rabify.example.com/wp-content/uploads/2018/06/twitter_top0618.jpg?d=400 400w",
     "https://rabify.example.com/wp-content/uploads/2018/06/twitter_top0618.jpg?v=1&d=300 300w",
-    "https://rabify.example.com/wp-content/uploads/2018/06/twitter_top0618.jpg?d=100 1000w"
+    "https://rabify.example.com/wp-content/uploads/2018/06/twitter_top0618.jpg?d=1000 1000w"
 ];
 
 $comp = [];
@@ -39,6 +39,14 @@ for($i = 0; $i < count($img_tags); $i++) {
         echo "[success] 配列${i}は期待通りに実行されました。 expect: ${expect[$i]}\n" ;
     } else {
         throw new Exception("[fail] 配列${i}は期待通りの値をとりませんでした。\nexpect: ${expect[$i]}\n");
+    }
+}
+
+foreach(['localhost', '127.0.0.1'] as $host) {
+    if(is_localhost($host)) {
+        echo "[success] ローカルホストの判定に成功しました。 expect: ${host}\n" ;
+    } else {
+        throw new Exception("[fail] ローカルホストの判定に失敗しました\nexpect: ${host}\n");
     }
 }
 ?>

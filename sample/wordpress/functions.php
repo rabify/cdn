@@ -19,7 +19,27 @@ define('CDN_SIZE', [100, 200, 300, 400]);
 define('SRC_SIZE', 'sizes="(max-width: 767px) 89vw, (max-width: 1000px) 54vw, (max-width: 1071px) 543px, 580px"');
 define('REPLACE_METHOD', ['get_the_excerpt', 'the_excerpt', 'the_content']);
 
+function is_localhost($site_url) {
+    if(strpos($site_url,'localhost') !== false) {
+        return true;
+    }
+
+    if(strpos($site_url,'[::1]') !== false) {
+        return true;
+    }
+
+    if(preg_match('/^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/', $site_url)){
+        return true;
+    }
+
+    return false;
+}
+
 function rabify_cdn_filter( $the_content ) {
+    if(is_localhost(site_url())){
+        return $the_content;
+    }
+
     $preg_site_url = preg_replace(['/(https?):\/\//', '/\./'], ['$1:\/\/', '\.'], site_url());
     $pattern = "/${preg_site_url}(.*?[\.jpe?g|\.png|\.bmp])/i";
     $replace_content = preg_replace($pattern, CDN_URL."$1", $the_content);
