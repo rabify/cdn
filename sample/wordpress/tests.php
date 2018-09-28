@@ -28,7 +28,7 @@ $expect = [
     "https://rabify.example.com/wp-content/uploads/2018/06/twitter_top0618.jpg?v=1&d=200 200w",
     "https://rabify.example.com/wp-content/uploads/2018/06/twitter_top0618.jpg?d=400 400w",
     "https://rabify.example.com/wp-content/uploads/2018/06/twitter_top0618.jpg?v=1&d=300 300w",
-    "https://rabify.example.com/wp-content/uploads/2018/06/twitter_top0618.jpg?d=1000 1000w"
+    "https://rabify.example.com/wp-content/uploads/2018/06/twitter_top0618.jpg?d=100 1000w"
 ];
 
 $comp = [];
@@ -38,7 +38,7 @@ for($i = 0; $i < count($img_tags); $i++) {
     if(strpos($cdn,$expect[$i]) !== false){
         echo "[success] 配列${i}は期待通りに実行されました。 expect: ${expect[$i]}\n" ;
     } else {
-        echo "[fail] 配列${i}は期待通りの値をとりませんでした。 expect: ${expect[$i]}\n" ;
+        throw new Exception("[fail] 配列${i}は期待通りの値をとりませんでした。\nexpect: ${expect[$i]}\n");
     }
 }
 ?>
