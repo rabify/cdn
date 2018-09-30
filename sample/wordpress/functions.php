@@ -17,7 +17,6 @@
 define('CDN_URL','https://rabify.example.com');
 define('CDN_SIZE', [100, 200, 300, 400]);
 define('SRC_SIZE', 'sizes="(max-width: 767px) 89vw, (max-width: 1000px) 54vw, (max-width: 1071px) 543px, 580px"');
-define('REPLACE_METHOD', ['get_the_excerpt', 'the_excerpt', 'the_content', 'post_thumbnail_html']);
 
 function is_localhost($site_url) {
     if(strpos($site_url,'localhost') !== false) {
@@ -82,11 +81,26 @@ function rabify_cdn ( $text, $sizes = [] ) {
     return rabify_cdn_srcset( $text, $sizes );
 }
 
-for($i = 0; count(REPLACE_METHOD) > $i; ++$i) {
-    add_filter( REPLACE_METHOD[$i], 'rabify_cdn_filter', $i);
-    add_filter( REPLACE_METHOD[$i], 'rabify_cdn_srcset', $i + 1);
-}
+/**
+ * the_content()で表示する画像を、rabify CDNの差し替えます
+ */
+add_filter( 'the_content', 'rabify_cdn_filter', 1 );
+add_filter( 'the_content', 'rabify_cdn_srcset', 2 );
 
-// デフォルトのsrcsetを有効化する場合、コメントアウトしてください。
-// WordPressのメディアで設定された画像サイズにしたがって、srcsetが設定されます。
+/**
+ * the_excerpt()で表示する画像を、rabify CDNの差し替えます
+ */
+add_filter( 'the_excerpt', 'rabify_cdn_filter', 1 );
+add_filter( 'the_excerpt', 'rabify_cdn_srcset', 2 );
+
+/**
+ * アイキャッチ画像で表示する画像を、rabify CDNの差し替えます
+ */
+add_filter( 'post_thumbnail_html', 'rabify_cdn_filter', 3 );
+add_filter( 'post_thumbnail_html', 'rabify_cdn_srcset', 4 );
+
+/**
+ * デフォルトのsrcsetを有効化する場合、コメントアウトしてください。
+ * WordPressのメディアで設定された画像サイズにしたがって、srcsetが設定されます。
+ */
 add_filter( 'wp_calculate_image_srcset_meta', '__return_null' );
