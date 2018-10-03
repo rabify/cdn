@@ -96,8 +96,15 @@ add_filter( 'the_excerpt', 'rabify_cdn_srcset', 2 );
 /**
  * アイキャッチ画像で表示する画像を、rabify CDNの差し替えます
  */
-add_filter( 'post_thumbnail_html', 'rabify_cdn_filter', 3 );
-add_filter( 'post_thumbnail_html', 'rabify_cdn_srcset', 4 );
+add_filter( 'post_thumbnail_html', 'rabify_cdn_filter', 1 );
+add_filter( 'post_thumbnail_html', 'rabify_cdn_srcset', 2 );
+
+
+/**
+ * カスタムヘッダーの画像を、rabify CDNの差し替えます
+ */
+add_filter( 'custom-header', 'rabify_cdn_filter', 1 );
+add_filter( 'custom-header', 'rabify_cdn_srcset', 2 );
 
 /**
  * デフォルトのsrcsetを有効化する場合、コメントアウトしてください。
