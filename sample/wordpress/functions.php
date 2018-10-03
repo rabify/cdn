@@ -14,9 +14,9 @@
  * ----------------------------------------------------------------------
  */
 
-define('CDN_URL','https://rabify.example.com');
-define('CDN_SIZE', [100, 200, 300, 400]);
-define('SRC_SIZE', 'sizes="(max-width: 767px) 89vw, (max-width: 1000px) 54vw, (max-width: 1071px) 543px, 580px"');
+define('CDN_URL','https://rabify.example.com');  // 最後のスラッシュはつけないようにしてください
+define('CDN_SIZE', [150, 400, 600, 800, 1000, 1200]);
+define('SRC_SIZE', ''); // https://developer.mozilla.org/ja/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images のsizeを指定
 
 function is_localhost($site_url) {
     if(strpos($site_url,'localhost') !== false) {
