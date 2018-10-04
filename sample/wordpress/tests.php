@@ -38,7 +38,7 @@ for($i = 0; $i < count($img_tags); $i++) {
     if(strpos($cdn,$expect[$i]) !== false){
         echo "[success] 配列${i}は期待通りに実行されました。 expect: ${expect[$i]}\n" ;
     } else {
-        throw new Exception("[fail] 配列${i}は期待通りの値をとりませんでした。\nexpect: ${expect[$i]}\n${cdn}");
+        throw new Exception("[fail] 配列${i}は期待通りの値をとりませんでした。\nexpect: ${expect[$i]}\n${cdn}\n");
     }
 }
 
