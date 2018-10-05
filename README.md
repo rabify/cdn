@@ -6,5 +6,5 @@
 ### WordPress 
 __functions.php__
 ```PHP
-$ php sample/wordpress/tests.php sample/wordpress/tests_linkcard.php
+$ php sample/wordpress/tests.php && php sample/wordpress/tests_linkcard.php
 ```

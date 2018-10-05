@@ -25,8 +25,6 @@ $html_string = '
 ';
 
 $replace = rabify_cdn( $html_string );
-echo $replace;
-
 
 $expect = [
     "href=\"https://technical-creator.com/invision-v7/\"",
