@@ -14,17 +14,14 @@
  * ----------------------------------------------------------------------
  */
 define('CDN_URL','https://rabify.example.com');  // 最後のスラッシュはつけないようにしてください
-define('CDN_PATTERN', [150, 200, 400, 600, 800, 1000, 1200]);
+define('CDN_PATTERN', [150, 200, 400, 600, 800, 1000, 1200]); // 画像サイズのパターン
 
 /**
- * WordPress公式Theme Twenty Seventeenのデフォルト値。
- * 変更する際はこちらを参考。
- * https://developer.mozilla.org/ja/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images のsizeを指定
- *
- * また、https://www.rabify.me/ で計算フォームあります。
+ * imgタグのsizes属性（https://developer.mozilla.org/ja/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images）
+ * 設定すると、より高速化に寄与します。 https://www.rabify.me/ でジェネレーターあります。
  */
-define('SRC_SIZE', '');
-define('SRC_SIZE_THUMBNAIL', '');
+define('SRC_SIZE', ''); // サムネイル以外のsizes
+define('SRC_SIZE_THUMBNAIL', ''); // サムネイルのsizes
 
 function is_localhost($site_url) {
     if(strpos($site_url,'localhost') !== false) {
