@@ -18,6 +18,7 @@ require_once __DIR__ . '/functions.php';
 $img_tags = [
     "[before]<img src=\"https://msak-note.com/wp-content/uploads/2018/06/twitter_top0618.jpg\" />[after]",
     "[before]<img src=\"https://msak-note.com/wp-content/uploads/2018/06/twitter_top0618.jpg?v=1\" />[after]",
+    "[before]<img src=\"https://msak-note.com/wp-content/uploads/2018/06/twitter_top0618.gif\" />[after]",
     "[before]<img src=\"https://msak-note.com/wp-content/uploads/2018/06/twitter_top0618.jpg?d=200\" />[after]",
     "[before]<img src=\"https://msak-note.com/wp-content/uploads/2018/06/twitter_top0618.jpg?v=1&d=200\" />[after]",
     "[before]<img src=\"https://msak-note.com/wp-content/uploads/2018/06/twitter_top0618-640x360.jpg?v=1\" srcset=\"https://rabify.example.com/wp-content/uploads/2018/06/twitter_top0618.jpg?d=1000 1000w\" />[after]",
@@ -27,6 +28,7 @@ $img_tags = [
 $expect = [
     "https://rabify.example.com/wp-content/uploads/2018/06/twitter_top0618.jpg?&d=600",
     "https://rabify.example.com/wp-content/uploads/2018/06/twitter_top0618.jpg?v=1&d=200 200w",
+    "https://msak-note.com/wp-content/uploads/2018/06/twitter_top0618.gif",
     "https://rabify.example.com/wp-content/uploads/2018/06/twitter_top0618.jpg?d=400 400w",
     "https://rabify.example.com/wp-content/uploads/2018/06/twitter_top0618.jpg?v=1&d=400 400w",
     "https://rabify.example.com/wp-content/uploads/2018/06/twitter_top0618.jpg?d=1000 1000w",
