@@ -130,7 +130,7 @@ add_filter( 'wp_calculate_image_srcset_meta', '__return_null' );
  	// セクションを追加
  	add_settings_section(
 		'eg_setting_section',
-		'Example settings section in reading',
+		'Rabify CDN',
 		'eg_setting_section_callback_function',
 		'media'
 	);
