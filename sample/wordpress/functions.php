@@ -1,4 +1,16 @@
 <?php
+/**
+ * @package Rabify_CDN
+ * @version 0.1
+ */
+/*
+Plugin Name: Rabify CDN
+Plugin URI: https://github.com/rabify/cdn
+Description: Replace img tag attributes to rabify cdn url
+Author: rdlabo
+Version: 0.1
+Text Domain: rabify-cdn
+*/
 
 /**
  * ----------------------------------------------------------------------
