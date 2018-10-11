@@ -44,12 +44,12 @@ function is_localhost($site_url) {
     return false;
 }
 function rabify_cdn_filter( $the_content ) {
-	if ( ! get_option( 'rabify_is_enabled' ) ) return $the_content;
+    if ( ! get_option( 'rabify_is_enabled' ) ) return $the_content;
     if(is_localhost(site_url())){
         return $the_content;
     }
-	$cdn_url = get_option('rabify_domain');
-	if ( ! $cdn_url ) return $the_content;
+    $cdn_url = get_option('rabify_domain');
+    if ( ! $cdn_url ) return $the_content;
     $preg_site_url = preg_replace(['/(https?):\/\//', '/\./'], ['$1:\/\/', '\.'], site_url());
     $pattern = "/${preg_site_url}([-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+\.)(jpe?g|png|bmp)/i";
     $replace_content = preg_replace($pattern, $cdn_url."$1$2", $the_content);
@@ -57,9 +57,9 @@ function rabify_cdn_filter( $the_content ) {
 }
 function rabify_cdn_srcset( $the_content, $pattern = [], $sizes = '' )
 {
-	if ( ! get_option( 'rabify_is_enabled' ) ) return $the_content;
-	$cdn_url = get_option('rabify_domain');
-	if ( ! $cdn_url ) return $the_content;
+    if ( ! get_option( 'rabify_is_enabled' ) ) return $the_content;
+    $cdn_url = get_option('rabify_domain');
+    if ( ! $cdn_url ) return $the_content;
     if (count($pattern) === 0) {
         $pattern = CDN_PATTERN;
     }
@@ -86,12 +86,12 @@ function rabify_cdn_srcset( $the_content, $pattern = [], $sizes = '' )
     return $replace_content;
 }
 function rabify_cdn ( $text, $pattern = [] ) {
-	if ( ! get_option( 'rabify_is_enabled' ) ) return $text;
+    if ( ! get_option( 'rabify_is_enabled' ) ) return $text;
     $text = rabify_cdn_filter( $text );
     return rabify_cdn_srcset( $text, $pattern );
 }
 function rabify_cdn_srcset_thumbnail( $the_content ) {
-	if ( ! get_option( 'rabify_is_enabled' ) ) return $the_content;
+    if ( ! get_option( 'rabify_is_enabled' ) ) return $the_content;
     return rabify_cdn_srcset( $the_content, $pattern = [], SRC_SIZE_THUMBNAIL );
 }
 /**
@@ -121,65 +121,65 @@ add_filter( 'post_thumbnail_html', 'rabify_cdn_srcset_thumbnail', 2 );
 add_filter( 'wp_calculate_image_srcset_meta', '__return_null' );
 
 // ------------------------------------------------------------------
- // admin_init の中で設定のセクションとフィールドを追加
- // ------------------------------------------------------------------
- //
- 
- function eg_settings_api_init() {
- 	// reading 設定ページへフィールドを追加する準備として
- 	// セクションを追加
- 	add_settings_section(
-		'eg_setting_section',
-		'Rabify CDN',
-		'eg_setting_section_callback_function',
-		'media'
-	);
- 	
- 	// その新しいセクションの中に
- 	// 新しい設定の名前と関数を指定しながらフィールドを追加
- 	add_settings_field(
-		'rabify_is_enabled',
-		'Enable Rabify CDN',
-		'eg_setting_callback_function',
-		'media',
-		'eg_setting_section'
-	);
-	 add_settings_field(
-		'rabify_domain',
-		'Rabify CDN URL',
-		'eg_setting_callback_function1',
-		'media',
-		'eg_setting_section'
-	);
- 	
- 	// 新しい設定が $_POST で扱われ、コールバック関数が <input> を
- 	// echo できるように、新しい設定を登録
- 	register_setting( 'media', 'rabify_is_enabled' );
- 	register_setting( 'media', 'rabify_domain' );
- } // eg_settings_api_init()
- 
- add_action( 'admin_init', 'eg_settings_api_init' );
- 
-  
- // ------------------------------------------------------------------
- // セクションのコールバック関数
- // ------------------------------------------------------------------
- //
- // 新規セクションを追加するために必要となる関数。
- // セクションのはじめに実行される。
- //
- 
- function eg_setting_section_callback_function() {
- 	echo '<p>設定セクションを説明する文章</p>';
- }
- 
- // ------------------------------------------------------------------
- // 設定の例のためのコールバック関数
- // ------------------------------------------------------------------
+// admin_init の中で設定のセクションとフィールドを追加
+// ------------------------------------------------------------------
+//
 
- function eg_setting_callback_function1() {
- 	echo '<input name="rabify_domain" id="rabify_domain" type="text" value="'. get_option( 'rabify_domain' ). '" class="code"  placeholder="https://example.rabify.me" /> *最後のスラッシュはつけないようにしてください';
- }
- function eg_setting_callback_function() {
- 	echo '<label><input name="rabify_is_enabled" id="rabify_is_enabled" type="checkbox" value="1" class="code" ' . checked( 1, get_option( 'rabify_is_enabled' ), false ) . ' /> CDNを有効化する</label>';
- }
+function eg_settings_api_init() {
+    // reading 設定ページへフィールドを追加する準備として
+    // セクションを追加
+    add_settings_section(
+        'eg_setting_section',
+        'Rabify CDN',
+        'eg_setting_section_callback_function',
+        'media'
+    );
+
+    // その新しいセクションの中に
+    // 新しい設定の名前と関数を指定しながらフィールドを追加
+    add_settings_field(
+        'rabify_is_enabled',
+        'Enable Rabify CDN',
+        'eg_setting_callback_function',
+        'media',
+        'eg_setting_section'
+    );
+    add_settings_field(
+        'rabify_domain',
+        'Rabify CDN URL',
+        'eg_setting_callback_function1',
+        'media',
+        'eg_setting_section'
+    );
+
+    // 新しい設定が $_POST で扱われ、コールバック関数が <input> を
+    // echo できるように、新しい設定を登録
+    register_setting( 'media', 'rabify_is_enabled' );
+    register_setting( 'media', 'rabify_domain' );
+} // eg_settings_api_init()
+
+add_action( 'admin_init', 'eg_settings_api_init' );
+
+
+// ------------------------------------------------------------------
+// セクションのコールバック関数
+// ------------------------------------------------------------------
+//
+// 新規セクションを追加するために必要となる関数。
+// セクションのはじめに実行される。
+//
+
+function eg_setting_section_callback_function() {
+    echo '<p>設定セクションを説明する文章</p>';
+}
+
+// ------------------------------------------------------------------
+// 設定の例のためのコールバック関数
+// ------------------------------------------------------------------
+
+function eg_setting_callback_function1() {
+    echo '<input name="rabify_domain" id="rabify_domain" type="text" value="'. get_option( 'rabify_domain' ). '" class="code"  placeholder="https://example.rabify.me" /> *最後のスラッシュはつけないようにしてください';
+}
+function eg_setting_callback_function() {
+    echo '<label><input name="rabify_is_enabled" id="rabify_is_enabled" type="checkbox" value="1" class="code" ' . checked( 1, get_option( 'rabify_is_enabled' ), false ) . ' /> CDNを有効化する</label>';
+}
