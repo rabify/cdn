@@ -1,12 +1,12 @@
 <?php
 /**
- * @package Rabify_CDN
+ * @package rabify_CDN
  * @version 0.1
  */
 /*
-Plugin Name: Rabify CDN
+Plugin Name: rabify CDN
 Plugin URI: https://github.com/rabify/cdn
-Description: Replace img tag attributes to rabify cdn url
+Description: 画像をCDNからホスティングするためのプラグインです。有効にしたあと、設定 => メディアから詳細を設定ください。
 Author: rdlabo
 Version: 0.1
 Text Domain: rabify-cdn
@@ -126,27 +126,22 @@ add_filter( 'wp_calculate_image_srcset_meta', '__return_null' );
 //
 
 function eg_settings_api_init() {
-    // reading 設定ページへフィールドを追加する準備として
-    // セクションを追加
     add_settings_section(
         'eg_setting_section',
-        'Rabify CDN',
+        'rabify CDN',
         'eg_setting_section_callback_function',
         'media'
     );
-
-    // その新しいセクションの中に
-    // 新しい設定の名前と関数を指定しながらフィールドを追加
     add_settings_field(
         'rabify_is_enabled',
-        'Enable Rabify CDN',
+        'Enable',
         'eg_setting_callback_function',
         'media',
         'eg_setting_section'
     );
     add_settings_field(
         'rabify_domain',
-        'Rabify CDN URL',
+        'rabify CDN URL',
         'eg_setting_callback_function1',
         'media',
         'eg_setting_section'
@@ -170,7 +165,7 @@ add_action( 'admin_init', 'eg_settings_api_init' );
 //
 
 function eg_setting_section_callback_function() {
-    echo '<p>設定セクションを説明する文章</p>';
+    echo '<p>WordPressで利用する画像のドメインをCDNに差し替えることができます。ローカルホストでは動作しませんのでご注意ください。</p>';
 }
 
 // ------------------------------------------------------------------
@@ -181,5 +176,5 @@ function eg_setting_callback_function1() {
     echo '<input name="rabify_domain" id="rabify_domain" type="text" value="'. get_option( 'rabify_domain' ). '" class="code"  placeholder="https://example.rabify.me" /> *最後のスラッシュはつけないようにしてください';
 }
 function eg_setting_callback_function() {
-    echo '<label><input name="rabify_is_enabled" id="rabify_is_enabled" type="checkbox" value="1" class="code" ' . checked( 1, get_option( 'rabify_is_enabled' ), false ) . ' /> CDNを有効化する</label>';
+    echo '<label><input name="rabify_is_enabled" id="rabify_is_enabled" type="checkbox" value="1" class="code" ' . checked( 1, get_option( 'rabify_is_enabled' ), false ) . ' /> rabify CDNを有効化する</label>';
 }
