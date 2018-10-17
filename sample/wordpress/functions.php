@@ -32,7 +32,7 @@ define('CDN_PATTERN', [150, 200, 400, 600, 800, 1000, 1200]); // 画像サイズ
  * imgタグのsizes属性（https://developer.mozilla.org/ja/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images）
  * 設定すると、より高速化に寄与します。 https://www.rabify.me/ でジェネレーターあります。
  */
-define('SRC_SIZE', ''); // サムネイル以外のsizes
+define('SRC_SIZE', 'sizes="(max-width: 767px) and (resolution: 1dppx) 82vw, (max-width: 767px) and (resolution: 2dppx) 50vw, (max-width: 767px) and (resolution: 3dppx) 33vw, (max-width: 767px) and (resolution: 4dppx) 25vw, (max-width: 1000px) and (resolution: 1dppx) 74vw, (max-width: 1000px) and (resolution: 2dppx) 45vw, (max-width: 1000px) and (resolution: 3dppx) 30vw, (max-width: 1000px) and (resolution: 4dppx) 23vw, (max-width: 1071px) and (resolution: 1dppx) 70vw, (max-width: 1071px) and (resolution: 2dppx) 42vw, (max-width: 1071px) and (resolution: 3dppx) 28vw, (max-width: 1071px) and (resolution: 4dppx) 21vw, (resolution: 2dppx) 480px, (resolution: 3dppx) 320px, (resolution: 4dppx) 240px, 800px"'); // サムネイル以外のsizes
 define('SRC_SIZE_THUMBNAIL', ''); // サムネイルのsizes
 
 function is_localhost($site_url) {
@@ -65,6 +65,7 @@ function rabify_cdn_srcset( $the_content, $pattern = [], $sizes = '' )
     $preg_cdn_url = preg_replace('/(https?):\/\//', '$1:\/\/', CDN_URL);
     $preg_cdn_url = preg_replace('/\./', '\.', $preg_cdn_url);
 
+    // content_width
     global $content_width;
     if (!$content_width) {
         $content_width = 600;
@@ -82,17 +83,12 @@ function rabify_cdn_srcset( $the_content, $pattern = [], $sizes = '' )
     $srcset = rtrim($srcset, ', ') . "\" ";
     $replace_content = preg_replace($reg, "$1\"$2$3?$4&$5\" ${srcset}", $replace_content);
 
-
-
+    // sizes
     if (!$sizes) {
         $sizes = SRC_SIZE;
     }
-
-
-
-//    $reg = "/(<img.*?src\=)[\'\"](${preg_cdn_url}[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+$,%#]+\.)(jpe?g|png|bmp)\??(v\=\w+)?&?(d\=\w+)?[\'\"](?=.*srcset)(?=.*width)(?=.*height)(?!.*sizes)/i";
-//    $replace_content = preg_replace($reg, "$1\"$2$3?$4&$5&d=$content_width\" ${srcset} $5", $the_content);
-
+    $reg = "/(<img.*?src\=)[\'\"](${preg_cdn_url}[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+$,%#]+\.)(.*?)[\'\"](?=.*srcset)(?=.*width)(?=.*height)(?!.*sizes)/i";
+    $replace_content = preg_replace($reg, "$1\"$2$3\"$4$5$6 $sizes", $replace_content);
 
     $replace_content = preg_replace('/(<img.*?src\=[\'\"].*?)(\?d\=\w+)(.*?)d\=\w+(.*?[\'\"])/', "$1$2$3$4", $replace_content );
     $replace_content = preg_replace('/([\.jpe?g|\.png|\.bmp])\?&/', '$1?', $replace_content );
