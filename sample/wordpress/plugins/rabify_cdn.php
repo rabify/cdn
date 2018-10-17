@@ -34,6 +34,7 @@ function rabify_cdn_filter( $the_content ) {
     if(is_localhost(site_url())){
         return $the_content;
     }
+    $cdn_url = rtrim($cdn_url, "/");
     $preg_site_url = preg_replace(['/(https?):\/\//', '/\./'], ['$1:\/\/', '\.'], site_url());
     $pattern = "/${preg_site_url}([-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+\.)(jpe?g|png|bmp)/i";
     $replace_content = preg_replace($pattern, $cdn_url."$1$2", $the_content);
