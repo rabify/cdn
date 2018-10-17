@@ -2,15 +2,13 @@
 /**
  * @package rabify_CDN
  * @version 0.1
+ * Plugin Name: rabify CDN
+ * Plugin URI: https://github.com/rabify/cdn
+ * Description: 画像をCDNからホスティングするためのプラグインです。有効にしたあと、設定 => メディアから詳細を設定ください。
+ * Author: rdlabo
+ * Version: 0.1
+ * Text Domain: rabify-cdn
  */
-/*
-Plugin Name: rabify CDN
-Plugin URI: https://github.com/rabify/cdn
-Description: 画像をCDNからホスティングするためのプラグインです。有効にしたあと、設定 => メディアから詳細を設定ください。
-Author: rdlabo
-Version: 0.1
-Text Domain: rabify-cdn
-*/
 function is_localhost($site_url) {
     if(strpos($site_url,'localhost') !== false) {
         return true;
@@ -193,8 +191,6 @@ function eg_settings_api_init() {
         'eg_setting_section'
     );
 
-    // 新しい設定が $_POST で扱われ、コールバック関数が <input> を
-    // echo できるように、新しい設定を登録
     register_setting( 'media', 'rabify_is_enabled' );
     register_setting( 'media', 'rabify_domain' );
     register_setting( 'media', 'rabify_pattern' );
@@ -203,25 +199,14 @@ function eg_settings_api_init() {
     register_setting( 'media', 'rabify_size_sizes_header' );
     register_setting( 'media', 'rabify_size_sizes_thumbnail' );
     register_setting( 'media', 'rabify_force' );
-} // eg_settings_api_init()
+}
 
 add_action( 'admin_init', 'eg_settings_api_init' );
 
-// ------------------------------------------------------------------
-// セクションのコールバック関数
-// ------------------------------------------------------------------
-//
-// 新規セクションを追加するために必要となる関数。
-// セクションのはじめに実行される。
-//
 
 function eg_setting_section_callback_function() {
     echo '<p>WordPressで利用する画像のドメインをCDNに差し替えることができます。ローカル環境では動作しませんのでご注意ください。</p>';
 }
-
-// ------------------------------------------------------------------
-// 設定の例のためのコールバック関数
-// ------------------------------------------------------------------
 
 function eg_setting_callback_enabled() {
     echo '<label><input name="rabify_is_enabled" id="rabify_is_enabled" type="checkbox" value="1" class="code" ' . checked( 1, get_option( 'rabify_is_enabled' ), false ) . ' /> rabify CDNを有効化する</label>';
