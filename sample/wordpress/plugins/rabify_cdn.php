@@ -126,6 +126,25 @@ add_filter( 'post_thumbnail_html', 'rabify_cdn_srcset_thumbnail', 2 );
 add_filter( 'wp_calculate_image_srcset_meta', '__return_null' );
 
 
+function call_back($buffer) {
+    return rabify_cdn($buffer, []);
+}
+function buf_start() {
+    if ( ! get_option( 'rabify_force' ) ) {
+        return null;
+    }
+    ob_start("call_back");
+}
+function buf_end() {
+    if ( ! get_option( 'rabify_force' ) ) {
+        return null;
+    }
+    ob_end_flush();
+}
+
+add_action('after_setup_theme', 'buf_start');
+add_action('shutdown', 'buf_end');
+
 // ------------------------------------------------------------------
 // admin_init の中で設定のセクションとフィールドを追加
 // ------------------------------------------------------------------
@@ -166,6 +185,13 @@ function eg_settings_api_init() {
         'media',
         'eg_setting_section'
     );
+    add_settings_field(
+        'rabify_force',
+        '強制適用',
+        'eg_setting_callback_force',
+        'media',
+        'eg_setting_section'
+    );
 
     // 新しい設定が $_POST で扱われ、コールバック関数が <input> を
     // echo できるように、新しい設定を登録
@@ -176,6 +202,7 @@ function eg_settings_api_init() {
     register_setting( 'media', 'rabify_size_sizes_excerpt' );
     register_setting( 'media', 'rabify_size_sizes_header' );
     register_setting( 'media', 'rabify_size_sizes_thumbnail' );
+    register_setting( 'media', 'rabify_force' );
 } // eg_settings_api_init()
 
 add_action( 'admin_init', 'eg_settings_api_init' );
@@ -219,4 +246,8 @@ function eg_setting_callback_sizes() {
     <label for="rabify_size_sizes_thumbnail">post_thumbnail_html</label>
     <input name="rabify_size_sizes_thumbnail" id="rabify_size_sizes_thumbnail" type="text" pattern="sizes=.*" value=\''. get_option( 'rabify_size_sizes_thumbnail' ). '\' class="code"  placeholder="sizes=&ldquo;&ldquo;" /><br />
     </fieldset>';
+}
+
+function eg_setting_callback_force() {
+    echo '<label><input name="rabify_force" id="rabify_force" type="checkbox" value="1" class="code" ' . checked( 1, get_option( 'rabify_force' ), false ) . ' /> rabify CDNを生成結果すべてに適用</label>';
 }
