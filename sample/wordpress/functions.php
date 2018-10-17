@@ -70,11 +70,11 @@ function rabify_cdn_srcset( $the_content, $pattern = [], $sizes = '' )
     if (!$content_width) {
         $content_width = 600;
     }
-    $reg = "/(<img.*?src\=)[\'\"](${preg_cdn_url}[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+$,%#]+\.)(jpe?g|png|bmp)(?!.*d\=\w+)[\'\"]/i";
+    $reg = "/(<img.*?src\=)[\'\"](${preg_cdn_url}.*?)(jpe?g|png|bmp)(?!.*d\=\w+)[\'\"]/i";
     $replace_content = preg_replace($reg, "$1\"$2$3&d=$content_width\"", $the_content);
 
     // srcset
-    $reg = "/(<img.*?src\=)[\'\"](${preg_cdn_url}[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+$,%#]+\.)(jpe?g|png|bmp)\??(v\=\w+)?&?(d\=\w+)?[\'\"](?!.*srcset.*>)/i";
+    $reg = "/(<img.*?src\=)[\'\"](${preg_cdn_url}.*?)(jpe?g|png|bmp)\??(v\=\w+)?&?(d\=\w+)?[\'\"](?!.*srcset.*>)/i";
     $srcset = "srcset=\"";
 
     foreach($pattern as $size) {
@@ -87,8 +87,8 @@ function rabify_cdn_srcset( $the_content, $pattern = [], $sizes = '' )
     if (!$sizes) {
         $sizes = SRC_SIZE;
     }
-    $reg = "/(<img.*?src\=)[\'\"](${preg_cdn_url}[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+$,%#]+\.)(.*?)[\'\"](?=.*srcset)(?=.*width)(?=.*height)(?!.*sizes)/i";
-    $replace_content = preg_replace($reg, "$1\"$2$3\"$4$5$6 $sizes", $replace_content);
+    $reg = "/(<img.*?src\=)[\'\"](${preg_cdn_url}.*?)[\'\"](?=.*srcset)(?=.*width)(?=.*height)(?!.*sizes)/i";
+    $replace_content = preg_replace($reg, "$1\"$2\"$3$4$5$6 $sizes", $replace_content);
 
     $replace_content = preg_replace('/(<img.*?src\=[\'\"].*?)(\?d\=\w+)(.*?)d\=\w+(.*?[\'\"])/', "$1$2$3$4", $replace_content );
     $replace_content = preg_replace('/([\.jpe?g|\.png|\.bmp])\?&/', '$1?', $replace_content );
