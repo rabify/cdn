@@ -13,3 +13,9 @@ __plugin__
 ```PHP
 $ php sample/wordpress/plugins/tests/tests.php 
 ```
+
+## Release
+__plugin__
+```PHP
+$ zip sample/wordpress/rabify_cdn sample/wordpress/plugins/
+```
