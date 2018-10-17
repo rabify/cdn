@@ -60,6 +60,7 @@ function rabify_cdn_srcset( $the_content, $pattern = [], $sizes = '' )
     if ( ! get_option( 'rabify_is_enabled' ) ) return $the_content;
     $cdn_url = get_option('rabify_domain');
     if ( ! $cdn_url ) return $the_content;
+
     if (count($pattern) === 0) {
         $pattern = CDN_PATTERN;
     }
@@ -120,6 +121,7 @@ add_filter( 'post_thumbnail_html', 'rabify_cdn_srcset_thumbnail', 2 );
  */
 add_filter( 'wp_calculate_image_srcset_meta', '__return_null' );
 
+
 // ------------------------------------------------------------------
 // admin_init の中で設定のセクションとフィールドを追加
 // ------------------------------------------------------------------
@@ -135,14 +137,28 @@ function eg_settings_api_init() {
     add_settings_field(
         'rabify_is_enabled',
         'Enable',
-        'eg_setting_callback_function',
+        'eg_setting_callback_enabled',
         'media',
         'eg_setting_section'
     );
     add_settings_field(
         'rabify_domain',
         'rabify CDN URL',
-        'eg_setting_callback_function1',
+        'eg_setting_callback_domain',
+        'media',
+        'eg_setting_section'
+    );
+    add_settings_field(
+        'rabify_pattern',
+        '画像サイズ',
+        'eg_setting_callback_pattern',
+        'media',
+        'eg_setting_section'
+    );
+    add_settings_field(
+        'rabify_sizes',
+        'img sizes（任意入力）',
+        'eg_setting_callback_sizes',
         'media',
         'eg_setting_section'
     );
@@ -151,6 +167,11 @@ function eg_settings_api_init() {
     // echo できるように、新しい設定を登録
     register_setting( 'media', 'rabify_is_enabled' );
     register_setting( 'media', 'rabify_domain' );
+    register_setting( 'media', 'rabify_pattern' );
+    register_setting( 'media', 'rabify_size_sizes_content' );
+    register_setting( 'media', 'rabify_size_sizes_excerpt' );
+    register_setting( 'media', 'rabify_size_sizes_header' );
+    register_setting( 'media', 'rabify_size_sizes_thumbnail' );
 } // eg_settings_api_init()
 
 add_action( 'admin_init', 'eg_settings_api_init' );
@@ -165,16 +186,34 @@ add_action( 'admin_init', 'eg_settings_api_init' );
 //
 
 function eg_setting_section_callback_function() {
-    echo '<p>WordPressで利用する画像のドメインをCDNに差し替えることができます。ローカルホストでは動作しませんのでご注意ください。</p>';
+    echo '<p>WordPressで利用する画像のドメインをCDNに差し替えることができます。ローカル環境では動作しませんのでご注意ください。</p>';
 }
 
 // ------------------------------------------------------------------
 // 設定の例のためのコールバック関数
 // ------------------------------------------------------------------
 
-function eg_setting_callback_function1() {
-    echo '<input name="rabify_domain" id="rabify_domain" type="text" value="'. get_option( 'rabify_domain' ). '" class="code"  placeholder="https://example.rabify.me" /> *最後のスラッシュはつけないようにしてください';
-}
-function eg_setting_callback_function() {
+function eg_setting_callback_enabled() {
     echo '<label><input name="rabify_is_enabled" id="rabify_is_enabled" type="checkbox" value="1" class="code" ' . checked( 1, get_option( 'rabify_is_enabled' ), false ) . ' /> rabify CDNを有効化する</label>';
+}
+
+function eg_setting_callback_domain() {
+    echo '<input name="rabify_domain" id="rabify_domain" type="url" value="'. get_option( 'rabify_domain' ). '" class="regular-text code"  placeholder="https://example.rabify.me" />';
+}
+
+function eg_setting_callback_pattern() {
+    echo '<input name="rabify_pattern" id="rabify_pattern" type="text" pattern="[0-9, ].+" value="'. get_option( 'rabify_pattern' ). '" class="regular-text code"  placeholder="150, 200, 400, 600, 800, 1000, 1200" />';
+}
+
+function eg_setting_callback_sizes() {
+    echo '<fieldset>
+    <label for="rabify_size_sizes_content">the_content</label>
+    <input name="rabify_size_sizes_content" id="rabify_sizes_content" type="text" pattern="sizes=.*" value="'. get_option( 'rabify_sizes_content' ). '" class="code"  placeholder="sizes=&ldquo;&ldquo;" /><br />
+    <label for="rabify_size_sizes_excerpt">the_excerpt</label>
+    <input name="rabify_size_sizes_excerpt" id="rabify_sizes_excerpt" type="text" pattern="sizes=.*" value="'. get_option( 'rabify_sizes_excerpt' ). '" class="code"  placeholder="sizes=&ldquo;&ldquo;" /><br />
+    <label for="rabify_size_sizes_header">custom-header</label>
+    <input name="rabify_size_sizes_header" id="rabify_sizes_header" type="text" pattern="sizes=.*" value="'. get_option( 'rabify_sizes_header' ). '" class="code"  placeholder="sizes=&ldquo;&ldquo;" /><br />
+    <label for="rabify_size_sizes_thumbnail">post_thumbnail_html</label>
+    <input name="rabify_size_sizes_thumbnail" id="rabify_sizes_thumbnail" type="text" pattern="sizes=.*" value="'. get_option( 'rabify_sizes_thumbnail' ). '" class="code"  placeholder="sizes=&ldquo;&ldquo;" /><br />
+    </fieldset>';
 }
