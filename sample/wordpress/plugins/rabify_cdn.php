@@ -180,7 +180,6 @@ function eg_settings_api_init() {
 
 add_action( 'admin_init', 'eg_settings_api_init' );
 
-
 // ------------------------------------------------------------------
 // セクションのコールバック関数
 // ------------------------------------------------------------------
@@ -212,12 +211,12 @@ function eg_setting_callback_pattern() {
 function eg_setting_callback_sizes() {
     echo '<fieldset>
     <label for="rabify_size_sizes_content">the_content</label>
-    <input name="rabify_size_sizes_content" id="rabify_sizes_content" type="text" pattern="sizes=.*" value="'. get_option( 'rabify_sizes_content' ). '" class="code"  placeholder="sizes=&ldquo;&ldquo;" /><br />
+    <input name="rabify_size_sizes_content" id="rabify_size_sizes_content" type="text" pattern="sizes=.*" value=\''. get_option( 'rabify_size_sizes_content' ). '\' class="code"  placeholder="sizes=&ldquo;&ldquo;" /><br />
     <label for="rabify_size_sizes_excerpt">the_excerpt</label>
-    <input name="rabify_size_sizes_excerpt" id="rabify_sizes_excerpt" type="text" pattern="sizes=.*" value="'. get_option( 'rabify_sizes_excerpt' ). '" class="code"  placeholder="sizes=&ldquo;&ldquo;" /><br />
+    <input name="rabify_size_sizes_excerpt" id="rabify_size_sizes_excerpt" type="text" pattern="sizes=.*" value=\''. get_option( 'rabify_size_sizes_excerpt' ). '\' class="code"  placeholder="sizes=&ldquo;&ldquo;" /><br />
     <label for="rabify_size_sizes_header">custom-header</label>
-    <input name="rabify_size_sizes_header" id="rabify_sizes_header" type="text" pattern="sizes=.*" value="'. get_option( 'rabify_sizes_header' ). '" class="code"  placeholder="sizes=&ldquo;&ldquo;" /><br />
+    <input name="rabify_size_sizes_header" id="rabify_size_sizes_header" type="text" pattern="sizes=.*" value=\''. get_option( 'rabify_size_sizes_header' ). '\' class="code"  placeholder="sizes=&ldquo;&ldquo;" /><br />
     <label for="rabify_size_sizes_thumbnail">post_thumbnail_html</label>
-    <input name="rabify_size_sizes_thumbnail" id="rabify_sizes_thumbnail" type="text" pattern="sizes=.*" value="'. get_option( 'rabify_sizes_thumbnail' ). '" class="code"  placeholder="sizes=&ldquo;&ldquo;" /><br />
+    <input name="rabify_size_sizes_thumbnail" id="rabify_size_sizes_thumbnail" type="text" pattern="sizes=.*" value=\''. get_option( 'rabify_size_sizes_thumbnail' ). '\' class="code"  placeholder="sizes=&ldquo;&ldquo;" /><br />
     </fieldset>';
 }
