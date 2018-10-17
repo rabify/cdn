@@ -55,7 +55,7 @@ function rabify_cdn_srcset( $the_content, $pattern = [], $sizes = '' )
             return $the_content;
         }
 
-        $pattern = explode(',', $rabify_pattern);
+        $pattern = array_map('trim', explode(',', $rabify_pattern));
     }
 
     $preg_cdn_url = preg_replace('/(https?):\/\//', '$1:\/\/', $cdn_url);
@@ -111,13 +111,13 @@ function rabify_cdn_srcset_thumbnail( $the_content ) {
 }
 
 add_filter( 'the_content', 'rabify_cdn_filter', 1 );
-add_filter( 'the_content', 'rabify_cdn_srcset', 2 );
+add_filter( 'the_content', 'rabify_cdn_srcset_content', 2 );
 
 add_filter( 'the_excerpt', 'rabify_cdn_filter', 1 );
-add_filter( 'the_excerpt', 'rabify_cdn_srcset', 2 );
+add_filter( 'the_excerpt', 'rabify_cdn_srcset_excerpt', 2 );
 
 add_filter( 'custom-header', 'rabify_cdn_filter', 1 );
-add_filter( 'custom-header', 'rabify_cdn_srcset', 2 );
+add_filter( 'custom-header', 'rabify_cdn_srcset_header', 2 );
 
 add_filter( 'post_thumbnail_html', 'rabify_cdn_filter', 1 );
 add_filter( 'post_thumbnail_html', 'rabify_cdn_srcset_thumbnail', 2 );

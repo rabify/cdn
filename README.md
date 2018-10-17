@@ -8,3 +8,8 @@ __functions.php__
 ```PHP
 $ php sample/wordpress/tests.php && php sample/wordpress/tests_linkcard.php
 ```
+
+__plugin__
+```PHP
+$ php sample/wordpress/plugins/tests/tests.php 
+```
