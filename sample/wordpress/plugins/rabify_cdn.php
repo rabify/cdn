@@ -1,13 +1,12 @@
 <?php
 /**
- * @package rabify_CDN
- * @version 0.1
  * Plugin Name: rabify CDN
- * Plugin URI: https://github.com/rabify/cdn
+ * Plugin URI: https://www.rabify.me/cdn
  * Description: 画像をCDNからホスティングするためのプラグインです。有効にしたあと、設定 => メディアから詳細を設定ください。
- * Author: rdlabo
  * Version: 0.1
- * Text Domain: rabify-cdn
+ * Author: Relation Design Labo, General Inc.Association
+ * Author URI: https://www.rdlabo.jp/
+ * License: GPL2
  */
 function is_localhost($site_url) {
     if(strpos($site_url,'localhost') !== false) {
@@ -205,7 +204,7 @@ add_action( 'admin_init', 'eg_settings_api_init' );
 
 
 function eg_setting_section_callback_function() {
-    echo '<p>WordPressで利用する画像のドメインをCDNに差し替えることができます。ローカル環境では動作しませんのでご注意ください。</p>';
+    echo '<p>WordPressで利用する画像のドメインをCDNに差し替えます。ローカル環境では動作しませんのでご注意ください。</p>';
 }
 
 function eg_setting_callback_enabled() {
@@ -234,5 +233,5 @@ function eg_setting_callback_sizes() {
 }
 
 function eg_setting_callback_force() {
-    echo '<label><input name="rabify_force" id="rabify_force" type="checkbox" value="1" class="code" ' . checked( 1, get_option( 'rabify_force' ), false ) . ' /> rabify CDNを生成結果すべてに適用</label>';
+    echo '<label><input name="rabify_force" id="rabify_force" type="checkbox" value="1" class="code" ' . checked( 1, get_option( 'rabify_force' ), false ) . ' /> rabify CDNをサイト全体に適用</label>';
 }
