@@ -17,5 +17,6 @@ $ php sample/wordpress/plugins/tests/tests.php
 ## Release
 __plugin__
 ```PHP
-$ zip sample/wordpress/rabify_cdn sample/wordpress/plugins/
+$ cd sample/wordpress
+$ cp -r plugins/ rabicy_cdn/ && zip -r rabify_cdn.zip rabicy_cdn/ && rm -rf rabicy_cdn/
 ```
