@@ -1,13 +1,13 @@
 <?php
-/**
- * Plugin Name: rabify CDN
- * Plugin URI: https://www.rabify.me/cdn
- * Description: 画像をCDNからホスティングするためのプラグインです。有効にしたあと、設定 => メディアから詳細を設定ください。
- * Version: 0.1
- * Author: Relation Design Labo, General Inc.Association
- * Author URI: https://www.rdlabo.jp/
- * License: GPL2
- */
+/*
+Plugin Name: rabify CDN
+Plugin URI: https://www.rabify.me/cdn
+Description: 画像をCDNからホスティングするためのプラグインです。有効にしたあと、設定 => メディアから詳細を設定ください。
+Version: 0.1
+Author: Relation Design Labo, General Inc.Association
+Author URI: https://www.rdlabo.jp/
+License: GPL2
+*/
 function is_localhost($site_url) {
     if(strpos($site_url,'localhost') !== false) {
         return true;
