@@ -18,5 +18,5 @@ $ php sample/wordpress/plugins/tests/tests.php
 __plugin__
 ```PHP
 $ cd sample/wordpress
-$ cp -r plugins/ rabicy_cdn/ && zip -r rabify_cdn.zip rabicy_cdn/ && rm -rf rabicy_cdn/
+$ cp -r plugins/ rabicy_cdn/ && rm -rf rabicy_cdn/tests/ && zip -r rabify_cdn.zip rabicy_cdn/ && rm -rf rabicy_cdn/
 ```

@@ -53,7 +53,7 @@ for($i = 0; $i < count($img_tags); $i++) {
 }
 
 foreach(['localhost', '127.0.0.1'] as $host) {
-    if(is_localhost($host)) {
+    if(rabify_cdn_is_localhost($host)) {
         echo "[success] ローカルホストの判定に成功しました。 expect: ${host}\n" ;
     } else {
         throw new Exception("[fail] ローカルホストの判定に失敗しました\nexpect: ${host}\n");

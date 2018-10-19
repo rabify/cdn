@@ -48,7 +48,7 @@ function is_localhost($site_url) {
     return false;
 }
 function rabify_cdn_filter( $the_content ) {
-    if(is_localhost(site_url())){
+    if(rabify_cdn_is_localhost(site_url())){
         return $the_content;
     }
     $preg_site_url = preg_replace(['/(https?):\/\//', '/\./'], ['$1:\/\/', '\.'], site_url());

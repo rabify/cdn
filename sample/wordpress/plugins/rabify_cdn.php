@@ -9,7 +9,7 @@
 	License: GPL2
 	Text Domain: rabify-cdn
 */
-function is_localhost($site_url) {
+function rabify_cdn_is_localhost($site_url) {
     if(strpos($site_url,'localhost') !== false) {
         return true;
     }
@@ -29,7 +29,7 @@ function rabify_cdn_filter( $the_content ) {
     if ( ! $cdn_url ) {
         return $the_content;
     }
-    if(is_localhost(site_url())){
+    if(rabify_cdn_is_localhost(site_url())){
         return $the_content;
     }
     $cdn_url = rtrim($cdn_url, "/");
@@ -124,24 +124,24 @@ add_filter( 'post_thumbnail_html', 'rabify_cdn_srcset_thumbnail', 2 );
 add_filter( 'wp_calculate_image_srcset_meta', '__return_null' );
 
 
-function call_back($buffer) {
+function rabify_cdn_call_back($buffer) {
     return rabify_cdn($buffer, []);
 }
-function buf_start() {
+function rabify_cdn_buf_start() {
     if ( ! get_option( 'rabify_force' ) ) {
         return null;
     }
-    ob_start("call_back");
+    ob_start("rabify_cdn_call_back");
 }
-function buf_end() {
+function rabify_cdn_buf_end() {
     if ( ! get_option( 'rabify_force' ) ) {
         return null;
     }
     ob_end_flush();
 }
 
-add_action('after_setup_theme', 'buf_start');
-add_action('shutdown', 'buf_end');
+add_action('after_setup_theme', 'rabify_cdn_buf_start');
+add_action('shutdown', 'rabify_cdn_buf_end');
 
 // ------------------------------------------------------------------
 // admin_init の中で設定のセクションとフィールドを追加
