@@ -267,9 +267,9 @@ function rabify_cdn_setting_callback_force() {
 }
 
 function rabify_cdn_setting_callback_gif() {
-    echo '<label><input name="rabify_gif" id="rabify_gif" type="checkbox" value="1" class="code" ' . checked( 1, get_option( 'rabify_gif' ), false ) . ' /> gifファイルに適用（gifアニメーション非対応）</label>';
+    echo '<label><input name="rabify_gif" id="rabify_gif" type="checkbox" value="1" class="code" ' . checked( 1, get_option( 'rabify_gif' ), false ) . ' /> gifファイルにも適用（gifアニメーション非対応）</label>';
 }
 
 function rabify_cdn_setting_callback_bmp() {
-    echo '<label><input name="rabify_bmp" id="rabify_bmp" type="checkbox" value="1" class="code" ' . checked( 1, get_option( 'rabify_bmp' ), false ) . ' /> bmpファイルに適用（縮小後6MBまで）</label>';
+    echo '<label><input name="rabify_bmp" id="rabify_bmp" type="checkbox" value="1" class="code" ' . checked( 1, get_option( 'rabify_bmp' ), false ) . ' /> bmpファイルにも適用（縮小後6MBまで）</label>';
 }
