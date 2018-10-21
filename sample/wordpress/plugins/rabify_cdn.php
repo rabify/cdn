@@ -61,6 +61,15 @@ function rabify_cdn_srcset( $the_content, $pattern = [], $sizes = '' )
         $pattern = array_map('trim', explode(',', $rabify_pattern));
     }
 
+    $format = "jpe?g|png";
+    if ( ! get_option( 'rabify_gif' ) ) {
+        $format = $format. "|gif";
+    }
+
+    if ( ! get_option( 'rabify_bmp' ) ) {
+        $format = $format . "|bmp";
+    }
+
     $preg_cdn_url = preg_replace('/(https?):\/\//', '$1:\/\/', $cdn_url);
     $preg_cdn_url = preg_replace('/\./', '\.', $preg_cdn_url);
 
@@ -69,11 +78,11 @@ function rabify_cdn_srcset( $the_content, $pattern = [], $sizes = '' )
     if (!$content_width) {
         $content_width = 600;
     }
-    $reg = "/(<img.*?src\=)[\'\"](${preg_cdn_url}.*?)(jpe?g|png)(?!.*d\=\w+)[\'\"]/i";
+    $reg = "/(<img.*?src\=)[\'\"](${preg_cdn_url}.*?)(${format})(?!.*d\=\w+)[\'\"]/i";
     $replace_content = preg_replace($reg, "$1\"$2$3&d=$content_width\"", $the_content);
 
     // srcset
-    $reg = "/(<img.*?src\=)[\'\"](${preg_cdn_url}.*?)(jpe?g|png)\??(v\=\w+)?&?(d\=\w+)?[\'\"](?!.*srcset.*>)/i";
+    $reg = "/(<img.*?src\=)[\'\"](${preg_cdn_url}.*?)(${format})\??(v\=\w+)?&?(d\=\w+)?[\'\"](?!.*srcset.*>)/i";
     $srcset = "srcset=\"";
 
     foreach($pattern as $size) {
@@ -86,7 +95,7 @@ function rabify_cdn_srcset( $the_content, $pattern = [], $sizes = '' )
     $replace_content = preg_replace($reg, "$1\"$2\"$3$4$5$6 $sizes", $replace_content);
 
     $replace_content = preg_replace('/(<img.*?src\=[\'\"].*?)(\?d\=\w+)(.*?)d\=\w+(.*?[\'\"])/', "$1$2$3$4", $replace_content );
-    $replace_content = preg_replace('/([\.jpe?g|\.png])\?&/', '$1?', $replace_content );
+    $replace_content = preg_replace("/(${format})\?&/", '$1?', $replace_content );
     $preg_arrangement = ['/(<img.*?src\=.*?)&&(.*?>)/', '/(<img.*?src\=.*?)[&&?](\'|\")(.*?>)/'];
     $replace_content = preg_replace($preg_arrangement, ['$1&$2', '$1$2$3'], $replace_content );
     return $replace_content;
@@ -188,6 +197,20 @@ function eg_settings_api_init() {
         'eg_setting_section'
     );
     add_settings_field(
+        'rabify_gif',
+        'gifファイル',
+        'eg_setting_callback_gif',
+        'media',
+        'eg_setting_section'
+    );
+    add_settings_field(
+        'rabify_bmp',
+        'bmpファイル',
+        'eg_setting_callback_bmp',
+        'media',
+        'eg_setting_section'
+    );
+    add_settings_field(
         'rabify_force',
         '強制適用',
         'eg_setting_callback_force',
@@ -203,6 +226,8 @@ function eg_settings_api_init() {
     register_setting( 'media', 'rabify_size_sizes_header' );
     register_setting( 'media', 'rabify_size_sizes_thumbnail' );
     register_setting( 'media', 'rabify_force' );
+    register_setting( 'media', 'rabify_gif' );
+    register_setting( 'media', 'rabify_bmp' );
 }
 
 add_action( 'admin_init', 'eg_settings_api_init' );
@@ -239,4 +264,12 @@ function eg_setting_callback_sizes() {
 
 function eg_setting_callback_force() {
     echo '<label><input name="rabify_force" id="rabify_force" type="checkbox" value="1" class="code" ' . checked( 1, get_option( 'rabify_force' ), false ) . ' /> rabify CDNをサイト全体に適用</label>';
+}
+
+function eg_setting_callback_gif() {
+    echo '<label><input name="rabify_gif" id="rabify_gif" type="checkbox" value="1" class="code" ' . checked( 1, get_option( 'rabify_gif' ), false ) . ' /> gifファイルに適用（gifアニメーション非対応）</label>';
+}
+
+function eg_setting_callback_bmp() {
+    echo '<label><input name="rabify_bmp" id="rabify_bmp" type="checkbox" value="1" class="code" ' . checked( 1, get_option( 'rabify_bmp' ), false ) . ' /> bmpファイルに適用（縮小後6MBまで）</label>';
 }
