@@ -161,61 +161,61 @@ add_action('shutdown', 'rabify_cdn_buf_end');
 // ------------------------------------------------------------------
 //
 
-function eg_settings_api_init() {
+function rabify_cdn_settings_api_init() {
     add_settings_section(
-        'eg_setting_section',
+        'rabify_cdn_setting_section',
         'rabify CDN',
-        'eg_setting_section_callback_function',
+        'rabify_cdn_setting_section_callback_function',
         'media'
     );
     add_settings_field(
         'rabify_is_enabled',
         'Enable',
-        'eg_setting_callback_enabled',
+        'rabify_cdn_setting_callback_enabled',
         'media',
-        'eg_setting_section'
+        'rabify_cdn_setting_section'
     );
     add_settings_field(
         'rabify_domain',
         'rabify CDN URL',
-        'eg_setting_callback_domain',
+        'rabify_cdn_setting_callback_domain',
         'media',
-        'eg_setting_section'
+        'rabify_cdn_setting_section'
     );
     add_settings_field(
         'rabify_pattern',
         '画像サイズ',
-        'eg_setting_callback_pattern',
+        'rabify_cdn_setting_callback_pattern',
         'media',
-        'eg_setting_section'
+        'rabify_cdn_setting_section'
     );
     add_settings_field(
         'rabify_sizes',
         'img sizes（任意入力）',
-        'eg_setting_callback_sizes',
+        'rabify_cdn_setting_callback_sizes',
         'media',
-        'eg_setting_section'
+        'rabify_cdn_setting_section'
     );
     add_settings_field(
         'rabify_gif',
         'gifファイル',
-        'eg_setting_callback_gif',
+        'rabify_cdn_setting_callback_gif',
         'media',
-        'eg_setting_section'
+        'rabify_cdn_setting_section'
     );
     add_settings_field(
         'rabify_bmp',
         'bmpファイル',
-        'eg_setting_callback_bmp',
+        'rabify_cdn_setting_callback_bmp',
         'media',
-        'eg_setting_section'
+        'rabify_cdn_setting_section'
     );
     add_settings_field(
         'rabify_force',
         '強制適用',
-        'eg_setting_callback_force',
+        'rabify_cdn_setting_callback_force',
         'media',
-        'eg_setting_section'
+        'rabify_cdn_setting_section'
     );
 
     register_setting( 'media', 'rabify_is_enabled' );
@@ -230,26 +230,26 @@ function eg_settings_api_init() {
     register_setting( 'media', 'rabify_bmp' );
 }
 
-add_action( 'admin_init', 'eg_settings_api_init' );
+add_action( 'admin_init', 'rabify_cdn_settings_api_init' );
 
 
-function eg_setting_section_callback_function() {
+function rabify_cdn_setting_section_callback_function() {
     echo '<p>WordPressで利用する画像のドメインをCDNに差し替えます。ローカル環境では動作しませんのでご注意ください。</p>';
 }
 
-function eg_setting_callback_enabled() {
+function rabify_cdn_setting_callback_enabled() {
     echo '<label><input name="rabify_is_enabled" id="rabify_is_enabled" type="checkbox" value="1" class="code" ' . checked( 1, get_option( 'rabify_is_enabled' ), false ) . ' /> rabify CDNを有効化する</label>';
 }
 
-function eg_setting_callback_domain() {
+function rabify_cdn_setting_callback_domain() {
     echo '<input name="rabify_domain" id="rabify_domain" type="url" value="'. get_option( 'rabify_domain' ). '" class="regular-text code"  placeholder="https://example.rabify.me" />';
 }
 
-function eg_setting_callback_pattern() {
+function rabify_cdn_setting_callback_pattern() {
     echo '<input name="rabify_pattern" id="rabify_pattern" type="text" pattern="[0-9, ].+" value="'. get_option( 'rabify_pattern' ). '" class="regular-text code"  placeholder="150, 200, 400, 600, 800, 1000, 1200" />';
 }
 
-function eg_setting_callback_sizes() {
+function rabify_cdn_setting_callback_sizes() {
     echo '<fieldset>
     <label for="rabify_size_sizes_content">the_content</label>
     <input name="rabify_size_sizes_content" id="rabify_size_sizes_content" type="text" pattern="sizes=.*" value=\''. get_option( 'rabify_size_sizes_content' ). '\' class="code"  placeholder="sizes=&ldquo;&ldquo;" /><br />
@@ -262,14 +262,14 @@ function eg_setting_callback_sizes() {
     </fieldset>';
 }
 
-function eg_setting_callback_force() {
+function rabify_cdn_setting_callback_force() {
     echo '<label><input name="rabify_force" id="rabify_force" type="checkbox" value="1" class="code" ' . checked( 1, get_option( 'rabify_force' ), false ) . ' /> rabify CDNをサイト全体に適用</label>';
 }
 
-function eg_setting_callback_gif() {
+function rabify_cdn_setting_callback_gif() {
     echo '<label><input name="rabify_gif" id="rabify_gif" type="checkbox" value="1" class="code" ' . checked( 1, get_option( 'rabify_gif' ), false ) . ' /> gifファイルに適用（gifアニメーション非対応）</label>';
 }
 
-function eg_setting_callback_bmp() {
+function rabify_cdn_setting_callback_bmp() {
     echo '<label><input name="rabify_bmp" id="rabify_bmp" type="checkbox" value="1" class="code" ' . checked( 1, get_option( 'rabify_bmp' ), false ) . ' /> bmpファイルに適用（縮小後6MBまで）</label>';
 }
